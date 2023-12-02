@@ -1,6 +1,7 @@
 import requests
 import json, os
 from datetime import datetime
+import logging
 
 file_path = os.path.join(os.path.dirname(__file__), f'info.json')
 with open(file_path, 'r') as f:
@@ -17,6 +18,8 @@ headers = {
 }
 
 def get_pages(num_pages=None):
+    logging.debug("getting pages from notion database")
+
     url = f"https://api.notion.com/v1/databases/{DATABASE_ID}/query"
 
     get_all = num_pages is None

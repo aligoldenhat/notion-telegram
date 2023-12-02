@@ -1,6 +1,7 @@
 from telethon import TelegramClient
 import json, os, time
 from notion import get_pages, get_expire_users, user_optimizer
+import logging
 
 file_path = os.path.join(os.path.dirname(__file__), f'info.json')
 with open(file_path, 'r') as f:
@@ -23,8 +24,9 @@ def generate_massage(sub_users, price):
 
 def sending_massage(users, client):
     for user in users:
-        message = generate_massage(users[user][0], users[user][1])
+        logging.info(f'sending telegram message for {user}')
 
+        message = generate_massage(users[user][0], users[user][1])
         with client:
             client.loop.run_until_complete(main(user, message))
         
@@ -33,4 +35,6 @@ def sending_massage(users, client):
 async def main(telegram, message):
     await client.send_message(telegram, message)
 
-sending_massage(user_optimizer(get_expire_users(get_pages())), client)
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
+    sending_massage(user_optimizer(get_expire_users(get_pages())), client)
