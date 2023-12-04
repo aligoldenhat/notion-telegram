@@ -35,7 +35,10 @@ def get_pages(num_pages=None):
 
 
 def get_expire_users(pages):
-    today = datetime.today().strftime('%Y-%m-%d')
+    #today = datetime.today().strftime('%Y-%m-%d')
+
+    today = "2023-12-02"
+
     expired_users = []
 
     for page in pages:
@@ -61,9 +64,10 @@ def user_optimizer(users):
         for user in users:
             if uniqe_user == user[1]:
                 price += user[2]
-                sub_user.append(user[0])
+                sub_user.append((user[0], str(user[2])))
 
         optimized_users[uniqe_user] = (sub_user, price)
     
     return optimized_users
         
+print (user_optimizer(get_expire_users(get_pages())))

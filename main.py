@@ -16,7 +16,7 @@ def generate_massage(sub_users, price):
     massage = f"""
 سلام وقت بخیر 
 کانفیگ های شما به ایدی تمام شده:
-{"\n".join(sub_user for sub_user in sub_users)}
+{"\n".join('  >   '.join(sub_user) for sub_user in sub_users)}
 
 هزینه این کانفیگ ها ماهیانه {price} ناقابل
 
