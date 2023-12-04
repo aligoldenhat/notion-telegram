@@ -18,7 +18,7 @@ headers = {
 }
 
 def get_pages(num_pages=None):
-    logging.debug("getting pages from notion database")
+    logging.info("getting pages from notion database")
 
     url = f"https://api.notion.com/v1/databases/{DATABASE_ID}/query"
 

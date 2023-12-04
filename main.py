@@ -19,12 +19,14 @@ def generate_massage(sub_users, price):
 {"\n".join(sub_user for sub_user in sub_users)}
 
 هزینه این کانفیگ ها ماهیانه {price} ناقابل
+
+کانال وضعیت کانفیگ ها : @krowcystatus
 """
     return massage
 
 def sending_massage(users, client):
     for user in users:
-        logging.info(f'sending telegram message for {user}')
+        logging.warning(f'sending telegram message for {user}')
 
         message = generate_massage(users[user][0], users[user][1])
         with client:
@@ -36,5 +38,5 @@ async def main(telegram, message):
     await client.send_message(telegram, message)
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
     sending_massage(user_optimizer(get_expire_users(get_pages())), client)
