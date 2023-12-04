@@ -38,5 +38,5 @@ async def main(telegram, message):
     await client.send_message(telegram, message)
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.debug)
     sending_massage(user_optimizer(get_expire_users(get_pages())), client)

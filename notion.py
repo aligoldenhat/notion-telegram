@@ -69,5 +69,3 @@ def user_optimizer(users):
         optimized_users[uniqe_user] = (sub_user, price)
     
     return optimized_users
-        
-print (user_optimizer(get_expire_users(get_pages())))
