@@ -30,9 +30,14 @@ def sending_massage(users, client):
         logging.warning(f'sending telegram message for {user}')
 
         message = generate_massage(users[user][0], users[user][1])
-        with client:
-            client.loop.run_until_complete(main(user, message))
-        
+
+        try:
+            with client:
+                client.loop.run_until_complete(main(user, message))
+        except ValueError as Error:
+            print (Error)
+            pass
+
         time.sleep(2)
 
 async def main(telegram, message):
