@@ -35,10 +35,7 @@ def get_pages(num_pages=None):
 
 
 def get_expire_users(pages):
-    #today = datetime.today().strftime('%Y-%m-%d')
-
-    today = "2023-12-02"
-
+    today = datetime.today().strftime('%Y-%m-%d')
     expired_users = []
 
     for page in pages:
