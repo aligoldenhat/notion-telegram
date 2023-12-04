@@ -13,7 +13,7 @@ api_hash = data["telegram_api"]["api_hash"]
 client = TelegramClient('anon', api_id, api_hash)
 
 def generate_massage(sub_users, price):
-    sub_users_info = "\n".join('  >   '.join(sub_user) for sub_user in sub_users)
+    sub_users_info = "\n".join('  ->   '.join(sub_user) for sub_user in sub_users)
     massage = f"""
 سلام وقت بخیر 
 کانفیگ های شما به ایدی تمام شده:
