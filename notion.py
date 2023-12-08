@@ -2,6 +2,7 @@ import requests
 import json, os
 from datetime import datetime
 import logging
+import pprint
 
 file_path = os.path.join(os.path.dirname(__file__), f'info.json')
 with open(file_path, 'r') as f:
@@ -66,3 +67,6 @@ def user_optimizer(users):
         optimized_users[uniqe_user] = (sub_user, price)
     
     return optimized_users
+
+def dict_pretty(dict):
+    return pprint.PrettyPrinter(depth=4)

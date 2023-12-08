@@ -46,4 +46,7 @@ async def main(telegram, message):
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    sending_massage(user_optimizer(get_expire_users(get_pages())), client)
+    optimized_users = user_optimizer(get_expire_users(get_pages()))
+    logging.info(f"users for sending telegram message: \n {optimized_users}")
+    
+    sending_massage(optimized_users, client)
