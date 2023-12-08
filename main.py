@@ -45,8 +45,11 @@ async def main(telegram, message):
     await client.send_message(telegram, message)
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(filename = os.path.join(os.path.dirname(__file__), f'nt.log'),
+                        filemode = 'a',
+                        format = '%(asctime)s %(name)s %(levelname)s: %(message)s',
+                        level = logging.INFO)
     optimized_users = user_optimizer(get_expire_users(get_pages()))
-    logging.info(f"users for sending telegram message: \n {optimized_users}")
-    
-    sending_massage(optimized_users, client)
+    if optimized_users:
+        logging.info(f"users for sending telegram message: \n {optimized_users}")
+        sending_massage(optimized_users, client)
