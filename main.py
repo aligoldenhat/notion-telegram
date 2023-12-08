@@ -17,7 +17,6 @@ def generate_massage(sub_users, price):
     massage = f"""
 سلام وقت بخیر 
 کانفیگ های شما به ایدی تمام شده:
-آیا میخوایید کانفیگ رو تمدید کنید؟
 
 {sub_users_info}
 
