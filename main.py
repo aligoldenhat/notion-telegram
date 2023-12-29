@@ -1,6 +1,6 @@
 from telethon import TelegramClient
 import json, os, time
-from notion import get_pages, get_expire_users, user_optimizer
+from notion import get_pages, get_expire_users, user_optimizer, update_expiredate_and_check_shouldpay
 import logging
 
 file_path = os.path.join(os.path.dirname(__file__), f'info.json')
@@ -49,7 +49,10 @@ if __name__ == "__main__":
                         filemode = 'a',
                         format = '%(asctime)s %(name)s %(levelname)s: %(message)s',
                         level = logging.INFO)
-    optimized_users = user_optimizer(get_expire_users(get_pages()))
+    
+    expired_users = get_expire_users(get_pages())
+    optimized_users = user_optimizer(expired_users)
     if optimized_users:
         logging.info(f"users for sending telegram message: \n {optimized_users}")
         sending_massage(optimized_users, client)
+        update_expiredate_and_check_shouldpay(expired_users)
