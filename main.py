@@ -1,5 +1,5 @@
 from telethon import TelegramClient
-import json, os, time
+import json, os, time, random
 from notion import get_pages, get_expire_users, user_optimizer, update_expiredate_and_check_shouldpay
 import logging
 
@@ -9,11 +9,14 @@ with open(file_path, 'r') as f:
 
 api_id = data["telegram_api"]["api_id"]
 api_hash = data["telegram_api"]["api_hash"]
+cards = (data["card"]["m"], data["card"]["s"])
 
 client = TelegramClient('anon', api_id, api_hash)
 
 def generate_massage(sub_users, price):
     sub_users_info = "\n".join('  =>   '.join(sub_user) for sub_user in sub_users)
+    card = random.choices(cards, weights=(70, 30), k = 1)
+
     massage = f"""
 سلام وقت بخیر 
 کانفیگ های شما به ایدی تمام شده:
@@ -21,6 +24,7 @@ def generate_massage(sub_users, price):
 {sub_users_info}
 
 هزینه این کانفیگ ها ماهیانه {price} ناقابل
+کارت:  {card[0]}
 
 کانال وضعیت کانفیگ ها : @krowcystatus
 """
@@ -42,7 +46,8 @@ def sending_massage(users, client):
         time.sleep(2)
 
 async def main(telegram, message):
-    await client.send_message(telegram, message)
+    await client.send_message(telegram, message,
+                              parse_mode="md")
 
 if __name__ == "__main__":
     logging.basicConfig(filename = os.path.join(os.path.dirname(__file__), f'nt.log'),
