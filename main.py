@@ -24,7 +24,8 @@ def generate_massage(sub_users, price):
 {sub_users_info}
 
 هزینه این کانفیگ ها ماهیانه {price} ناقابل
-کارت:  {card[0]}
+روی شماره کارت بزنید کپی میشود:
+`{card[0]}`
 
 کانال وضعیت کانفیگ ها : @krowcystatus
 """
