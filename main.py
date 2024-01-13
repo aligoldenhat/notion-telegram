@@ -15,7 +15,7 @@ client = TelegramClient('anon', api_id, api_hash)
 
 def generate_massage(sub_users, price):
     sub_users_info = "\n".join('  =>   '.join(sub_user) for sub_user in sub_users)
-    card = random.choices(cards, weights=(70, 30), k = 1)
+    card = random.choices(cards, weights=(60, 40), k = 1)
 
     massage = f"""
 سلام وقت بخیر 
