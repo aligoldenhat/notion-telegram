@@ -70,7 +70,7 @@ def user_optimizer(users):
     return optimized_users
 
 def update_expiredate_and_check_shouldpay(users):
-    updated_date = datetime.today()+ relativedelta(months=1, days=3)
+    updated_date = datetime.today()+ relativedelta(months=1, days=2)
     updated_date = updated_date.strftime('%Y-%m-%d')
     for user in users:
         url = f"https://api.notion.com/v1/pages/{user[4]}"
