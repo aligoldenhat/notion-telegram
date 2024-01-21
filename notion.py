@@ -42,7 +42,7 @@ def get_expire_users(pages):
     for page in pages:
         try:
             if page['properties']['expire_date']['date']['start'] == today:
-                ID = page['properties']['ID']['rich_text'][0]['plain_text']
+                ID = page['properties']['ID']['title'][0]['plain_text']
                 telegram = page['properties']['telegram']['rich_text'][0]['plain_text']
                 price = page['properties']['price']['number']
                 page_id = page['id']
