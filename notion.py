@@ -46,7 +46,8 @@ def get_expire_users(pages):
                 telegram = page['properties']['telegram']['rich_text'][0]['plain_text']
                 price = page['properties']['price']['number']
                 page_id = page['id']
-                expired_users.append((ID, telegram, price, 1, page_id))
+                bank = page['properties']['bank']['select']['name'][0]
+                expired_users.append((ID, telegram, price, page_id, bank))
         except TypeError:
             pass
     return expired_users
@@ -62,18 +63,19 @@ def user_optimizer(users):
 
         for user in users:
             if uniqe_user == user[1]:
+                card = user[4]
                 price += user[2]
                 sub_user.append((user[0], str(user[2])))
 
-        optimized_users[uniqe_user] = (sub_user, price)
+        optimized_users[uniqe_user] = (sub_user, price, card)
     
-    return optimized_users
+    return optimized_users  
 
 def update_expiredate_and_check_shouldpay(users):
-    updated_date = datetime.today()+ relativedelta(months=1, days=1)
+    updated_date = datetime.today()+ relativedelta(months=1)
     updated_date = updated_date.strftime('%Y-%m-%d')
     for user in users:
-        url = f"https://api.notion.com/v1/pages/{user[4]}"
+        url = f"https://api.notion.com/v1/pages/{user[3]}"
         updated_patch_req = {"properties": {'expire_date': {'date': {'start': updated_date}}, 'should_pay': {'checkbox': True}}}
         count_patch_request = 0
         while True:
@@ -82,3 +84,5 @@ def update_expiredate_and_check_shouldpay(users):
             if res.status_code == 200 or count_patch_request == 10:
                 break
         logging.info(f"update '{user[0]}' expired_date and should_pay")
+
+print (user_optimizer(get_expire_users(get_pages())))
