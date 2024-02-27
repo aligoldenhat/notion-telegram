@@ -1,6 +1,5 @@
 import requests
 import json, os
-from datetime import datetime
 import logging
 from dateutil.relativedelta import relativedelta
 
@@ -18,15 +17,18 @@ headers = {
     "content-type": "application/json"
 }
 
-def get_pages(num_pages=None):
+def get_pages(date):
     logging.info("getting pages from notion database")
 
     url = f"https://api.notion.com/v1/databases/{DATABASE_ID}/query"
 
-    get_all = num_pages is None
-    page_size = 100 if get_all else num_pages
-
-    payload = {"page_size": page_size}
+    payload = {"filter": {
+                "property": "expire_date", 
+                "date": {
+                    "equals": date
+                  }
+                }
+              }
     response = requests.post(url, json=payload, headers=headers)
 
     data = response.json()
@@ -35,19 +37,17 @@ def get_pages(num_pages=None):
     return results
 
 
-def get_expire_users(pages):
-    today = datetime.today().strftime('%Y-%m-%d')
+def extract_important_column(pages):
     expired_users = []
 
     for page in pages:
         try:
-            if page['properties']['expire_date']['date']['start'] == today:
-                ID = page['properties']['ID']['title'][0]['plain_text']
-                telegram = page['properties']['telegram']['rich_text'][0]['plain_text']
-                price = page['properties']['price']['number']
-                page_id = page['id']
-                bank = page['properties']['bank']['select']['name'][0]
-                expired_users.append((ID, telegram, price, page_id, bank))
+            ID = page['properties']['ID']['title'][0]['plain_text']
+            telegram = page['properties']['telegram']['rich_text'][0]['plain_text']
+            price = page['properties']['price']['number']
+            page_id = page['id']
+            bank = page['properties']['bank']['select']['name'][0]
+            expired_users.append((ID, telegram, price, page_id, bank))
         except TypeError:
             pass
     return expired_users
@@ -84,5 +84,3 @@ def update_expiredate_and_check_shouldpay(users):
             if res.status_code == 200 or count_patch_request == 10:
                 break
         logging.info(f"update '{user[0]}' expired_date and should_pay")
-
-print (user_optimizer(get_expire_users(get_pages())))
