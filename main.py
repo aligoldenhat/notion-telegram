@@ -14,19 +14,19 @@ cards = {"m": data["card"]["m"], "b": data["card"]["b"]}
 
 client = TelegramClient('anon', api_id, api_hash)
 
-def generate_massage(sub_users, price, bank):
+def generate_message(sub_users, price, bank):
     sub_users_info = "\n".join('  =>   '.join(sub_user) for sub_user in sub_users)
     card = cards[bank]
 
     massage = f"""
-*(این پیام خودکار ارسال میشود)*
+<i><b>(این پیام خودکار ارسال میشود)</b></i>
 کانفیگ های شما به ایدی تمام شده:
 
 {sub_users_info}
 
 هزینه این کانفیگ ها ماهیانه {price} ناقابل
 روی شماره کارت بزنید کپی میشود:
-`{card}`
+<code>{card}</code>
 
 کانال وضعیت کانفیگ ها : @krowcystatus
 """
@@ -36,7 +36,7 @@ def sending_massage(users, client):
     for user in users:
         logging.warning(f'sending telegram message for {user}')
 
-        message = generate_massage(users[user][0], users[user][1], users[user][2])
+        message = generate_message(users[user][0], users[user][1], users[user][2])
 
         try:
             with client:
@@ -49,7 +49,7 @@ def sending_massage(users, client):
 
 async def main(telegram, message):
     await client.send_message(telegram, message,
-                              parse_mode="md")
+                              parse_mode="html")
 
 if __name__ == "__main__":
     logging.basicConfig(filename = os.path.join(os.path.dirname(__file__), f'nt.log'),
