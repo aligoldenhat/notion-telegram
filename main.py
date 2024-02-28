@@ -19,7 +19,7 @@ def generate_massage(sub_users, price, bank):
     card = cards[bank]
 
     massage = f"""
-سلام وقت بخیر 
+*(این پیام خودکار ارسال میشود)*
 کانفیگ های شما به ایدی تمام شده:
 
 {sub_users_info}
